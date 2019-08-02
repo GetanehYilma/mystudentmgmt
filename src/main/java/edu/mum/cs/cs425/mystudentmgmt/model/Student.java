@@ -2,20 +2,28 @@ package edu.mum.cs.cs425.mystudentmgmt.model;
 
 import java.time.LocalDate;
 
+//import edu.mum.cs.cs425.mystudentmgmt.model.Classroom;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name="studenttab")
 public class Student {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "student_id")
 	private long id;
 	
 	private String studentNumber;
@@ -27,6 +35,10 @@ public class Student {
 	
 	@OneToOne(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Transcript transcript;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "classroom_id")
+	private Classroom classroom;
 	
 	public Student() {
 		
@@ -104,5 +116,17 @@ public class Student {
 	}
 
 
+	public Classroom getClassroom() {
+		return classroom;
+	}
+
+
+	public void setClassroom(Classroom classroom) {
+		this.classroom = classroom;
+	}
+
+
+	
+	
 	
 }
